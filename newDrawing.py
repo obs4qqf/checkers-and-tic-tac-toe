@@ -36,6 +36,12 @@ def check_board_full():
                 board_full = False
     return board_full
 
+def can_place_marker(row, col):
+    if spaces[row][col] == 'X' or spaces[row][col] == 'O':
+        return False
+    else:
+        return True
+
 
 while game_on and not player_win and not bot_win:
     print('Tic Tac Toe Board:')
@@ -43,13 +49,21 @@ while game_on and not player_win and not bot_win:
     if player_turn:
         row_num = int(input('Pick a row to place a marker: '))
         col_num = int(input('Pick a column to place a marker: '))
-        spaces[row_num - 1][col_num - 1] = "O"
-        player_turn = False
+        if can_place_marker(row_num - 1, col_num - 1):
+            spaces[row_num - 1][col_num - 1] = 'O'
+            player_turn = False
+        else:
+            print('Cannot place marker in occupied space.\n'
+                  'Enter a new coordinate')
     else:
         row_num = int(input('Pick a row to place a marker: '))
         col_num = int(input('Pick a column to place a marker: '))
-        spaces[row_num - 1][col_num - 1] = "X"
-        player_turn = True
+        if can_place_marker(row_num - 1, col_num - 1):
+            spaces[row_num - 1][col_num - 1] = 'X'
+            player_turn = True
+        else:
+            print('Cannot place marker in occupied space.\n'
+                  'Enter a new coordinate')
     check_winner()
     if check_board_full():
         game_on = False
