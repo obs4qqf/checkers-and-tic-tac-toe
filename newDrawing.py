@@ -75,22 +75,14 @@ while game_on and not player_win and not bot_win:
         # else:
         #     print('Cannot place marker in occupied space.\n'
         #           'Enter a new coordinate')
-        new_matches = {0: spaces[0][0] == spaces[0][1] != " ",
-                       1: spaces[0][1] == spaces[0][2] != " ",
-                       2: spaces[1][0] == spaces[1][1] != " ",
-                       3: spaces[1][1] == spaces[1][2] != " ",
-                       4: spaces[2][0] == spaces[2][1] != " ",
-                       5: spaces[2][1] == spaces[2][2] != " ",
-                       6: spaces[0][0] == spaces[1][0] != " ",
-                       7: spaces[1][0] == spaces[2][0] != " ",
-                       8: spaces[0][1] == spaces[1][1] != " ",
-                       9: spaces[1][1] == spaces[2][1] != " ",
-                       10: spaces[0][2] == spaces[1][2] != " ",
-                       11: spaces[1][2] == spaces[2][2] != " ",
-                       12: spaces[0][0] == spaces[1][1] != " ",
-                       13: spaces[1][1] == spaces[2][2] != " ",
-                       14: spaces[0][2] == spaces[1][1] != " ",
-                       15: spaces[1][1] == spaces[2][0] != " "}
+        new_matches = [[spaces[0][0], spaces[0][1], spaces[0][2]],
+                       [spaces[1][0], spaces[1][1], spaces[1][2]],
+                       [spaces[2][0], spaces[2][1], spaces[2][2]],
+                       [spaces[0][0], spaces[1][0], spaces[2][0]],
+                       [spaces[0][1], spaces[1][1], spaces[2][1]],
+                       [spaces[0][2], spaces[1][2], spaces[2][2]],
+                       [spaces[0][0], spaces[1][1], spaces[2][2]],
+                       [spaces[0][2], spaces[1][1], spaces[2][0]]]
 
         bot_moves = [[0,2],
                      [0,0],
@@ -110,14 +102,18 @@ while game_on and not player_win and not bot_win:
                      [0,2]]
 
         for match in new_matches:
-            if new_matches[match]:
-                if can_place_marker(bot_moves[match][0], bot_moves[match][1]):
-                    spaces[bot_moves[match][0]][bot_moves[match][1]] = 'X'
-                    marker_placed = True
+            if match[0] == match[1] != ' ' or match[1] == match[2] != ' ' or match[0] == match[2] != ' ':
+                for space in match:
+                    if space == ' ':
+                        space = 'X'
+                        marker_placed = True
+                        print('1')
+                        print(space)
         while not marker_placed:
-            random_move = random.randint(0, 15)
-            if can_place_marker(bot_moves[random_move][0], bot_moves[random_move][1]):
-                spaces[bot_moves[random_move][0]][bot_moves[random_move][1]] = 'X'
+            rand_row = random.randint(0, 2)
+            rand_col = random.randint(0, 2)
+            if can_place_marker(rand_row, rand_col):
+                spaces[rand_row][rand_col] = 'X'
                 marker_placed = True
             print('2')
         player_turn = True
