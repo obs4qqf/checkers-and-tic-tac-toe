@@ -70,11 +70,12 @@ while game_on and not player_win and not bot_win:
                 print('ERROR: Not valid coordinate. Please enter a new coordinate.')
                 row_num = input('Pick a row to place a marker: ')
                 col_num = input('Pick a column to place a marker: ')
-        while row_num < 1 or row_num > 3 or col_num < 1 or col_num > 3:
-            print('ERROR: Not valid coordinate entered.\n'
-                  'Enter a new coordinates')
-            row_num = input('Pick a row to place a marker: ')
-            col_num = input('Pick a column to place a marker: ')
+            finally:
+                if row_num < 1 or row_num > 3 or col_num < 1 or col_num > 3:
+                    print('ERROR: Not valid coordinate entered.\n'
+                          'Enter a new coordinates')
+                    row_num = input('Pick a row to place a marker: ')
+                    col_num = input('Pick a column to place a marker: ')
         if can_place_marker(row_num - 1, col_num - 1):
             spaces[row_num - 1][col_num - 1] = 'O'
             player_turn = False
@@ -84,30 +85,43 @@ while game_on and not player_win and not bot_win:
     else:
         print('Bot\'s turn')
         marker_placed = False
-        new_matches = [[[0,0], [0,1], [0,2]],
-                       [[1,0], [1,1], [1,2]],
-                       [[2,0], [2,1], [2,2]],
-                       [[0,0], [1,0], [2,0]],
-                       [[0,1], [1,1], [2,1]],
-                       [[0,2], [1,2], [2,2]],
-                       [[0,0], [1,1], [2,2]],
-                       [[0,2], [1,1], [2,0]]]
+        new_matches = {1: [[0,0], [0,1], [0,2]],
+                       2: [[1,0], [1,1], [1,2]],
+                       3: [[2,0], [2,1], [2,2]],
+                       4: [[0,0], [1,0], [2,0]],
+                       5: [[0,1], [1,1], [2,1]],
+                       6: [[0,2], [1,2], [2,2]],
+                       7: [[0,0], [1,1], [2,2]],
+                       8: [[0,2], [1,1], [2,0]]}
+
+        player_can_win = []
+        bot_can_win = []
 
         for match in new_matches:
-            if not marker_placed:
-                if bot_find_match(spaces[match[0][0]][match[0][1]], spaces[match[1][0]][match[1][1]], spaces[match[2][0]][match[2][1]]):
-                    for space in match:
-                        if spaces[space[0]][space[1]] == ' ':
-                            spaces[space[0]][space[1]] = 'X'
-                            marker_placed = True
-                            print('1')
+            if bot_find_match(spaces[new_matches[match][0][0]][new_matches[match][0][1]], spaces[new_matches[match][1][0]][new_matches[match][1][1]], spaces[new_matches[match][2][0]][new_matches[match][2][1]]):
+                for space in new_matches[match]:
+                    if spaces[space[0]][space[1]] == 'X':
+                        bot_can_win.append(new_matches[match])
+                    elif spaces[space[0]][space[1]] == 'O':
+                        player_can_win.append(new_matches[match])
+        if bot_can_win:
+            for match in bot_can_win:
+                for space in match:
+                    if spaces[space[0]][space[1]] == ' ':
+                        spaces[space[0]][space[1]] = 'X'
+                        marker_placed = True
+        if player_can_win and not marker_placed:
+            for match in player_can_win:
+                for space in match:
+                    if spaces[space[0]][space[1]] == ' ' and not marker_placed:
+                        spaces[space[0]][space[1]] = 'X'
+                        marker_placed = True
         while not marker_placed:
             rand_row = random.randint(0, 2)
             rand_col = random.randint(0, 2)
             if can_place_marker(rand_row, rand_col):
                 spaces[rand_row][rand_col] = 'X'
                 marker_placed = True
-            print('2')
         player_turn = True
     check_winner()
     if check_board_full():
