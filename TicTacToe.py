@@ -1,6 +1,6 @@
 import random
 
-spaces = {0: [" ", " ", " "], 1: [" ", " ", " "], 2: [" ", " ", " "]}
+spaces = {0: [" ", " ", " "], 1: [" ", " ", " "], 2: [" ", " ", " "]}  # Tracks board markers
 player_win = False
 bot_win = False
 game_on = True
@@ -11,9 +11,13 @@ print('Beat the tic tac toe bot to win!')
 
 
 def check_winner():
+    '''
+    Checks if a set of three squares on tic-tac-toe board has been completed/won
+    '''
     global player_win
     global bot_win
     global game_on
+    # matches records all possible winning combinations of filled squares, and also makes sure they aren't empty
     matches = [spaces[0][0] == spaces[0][1] == spaces[0][2] != " ",
                spaces[1][0] == spaces[1][1] == spaces[1][2] != " ",
                spaces[2][0] == spaces[2][1] == spaces[2][2] != " ",
@@ -23,7 +27,7 @@ def check_winner():
                spaces[0][0] == spaces[1][1] == spaces[2][2] != " ",
                spaces[0][2] == spaces[1][1] == spaces[2][0] != " "]
     for match in matches:
-        if match:
+        if match:  # checks if squares in match are same symbol
             if not player_turn:
                 player_win = True
             else:
@@ -32,6 +36,10 @@ def check_winner():
 
 
 def check_board_full():
+    '''
+    Checks if the tic-tac-toe board is full and if game is over
+    :return: True/false if the board is full/not full
+    '''
     board_full = True
     for row in spaces:
         for col in spaces:
@@ -41,6 +49,12 @@ def check_board_full():
 
 
 def can_place_marker(row, col):
+    '''
+    Finds if tic-tac-toe square is empty
+    :param row: The row number
+    :param col: The column number
+    :return: True/false if square is empty/filled
+    '''
     if spaces[row][col] == 'X' or spaces[row][col] == 'O':
         return False
     else:
@@ -48,15 +62,23 @@ def can_place_marker(row, col):
 
 
 def bot_find_match(space1, space2, space3):
+    '''
+    Helps the bot find sets of two squares that could become winning tic-tac-toe rows
+    :param space1: First square
+    :param space2: Second square
+    :param space3: Third square
+    :return: True/false if there is a row where the player or the bot is about to win
+    '''
     match1 = space1 == space2 != ' '
     match2 = space2 == space3 != ' '
     match3 = space1 == space3 != ' '
     return match1 or match2 or match3
 
+# main game loop
 while game_on and not player_win and not bot_win:
     print('-----------------------------------------')
     print('Tic Tac Toe Board:')
-    print(f'|{spaces[0][0]}|{spaces[0][1]}|{spaces[0][2]}|\n|{spaces[1][0]}|{spaces[1][1]}|{spaces[1][2]}|\n|{spaces[2][0]}|{spaces[2][1]}|{spaces[2][2]}|')
+    print(f'|{spaces[0][0]}|{spaces[0][1]}|{spaces[0][2]}|\n|{spaces[1][0]}|{spaces[1][1]}|{spaces[1][2]}|\n|{spaces[2][0]}|{spaces[2][1]}|{spaces[2][2]}|')  # displays the tic-tac-toe board
     if player_turn:
         print('Your turn')
         row_num = input('Pick a row to place a marker: ')
@@ -84,7 +106,8 @@ while game_on and not player_win and not bot_win:
                   'Enter a new coordinate')
     else:
         print('Bot\'s turn')
-        marker_placed = False
+        marker_placed = False  # ensures the bot only places one marker
+        # new_matches records coordinates of squares together that result in victory
         new_matches = {1: [[0,0], [0,1], [0,2]],
                        2: [[1,0], [1,1], [1,2]],
                        3: [[2,0], [2,1], [2,2]],
@@ -94,9 +117,11 @@ while game_on and not player_win and not bot_win:
                        7: [[0,0], [1,1], [2,2]],
                        8: [[0,2], [1,1], [2,0]]}
 
+        # arrays below record sets of squares that result in player/bot victory
         player_can_win = []
         bot_can_win = []
 
+        # checks for all possible ways the player or bot can win
         for match in new_matches:
             if bot_find_match(spaces[new_matches[match][0][0]][new_matches[match][0][1]], spaces[new_matches[match][1][0]][new_matches[match][1][1]], spaces[new_matches[match][2][0]][new_matches[match][2][1]]):
                 for space in new_matches[match]:
@@ -104,12 +129,14 @@ while game_on and not player_win and not bot_win:
                         bot_can_win.append(new_matches[match])
                     elif spaces[space[0]][space[1]] == 'O':
                         player_can_win.append(new_matches[match])
+        # bot win moves are prioritized over preventing player from winning
         if bot_can_win:
             for match in bot_can_win:
                 for space in match:
                     if spaces[space[0]][space[1]] == ' ':
                         spaces[space[0]][space[1]] = 'X'
                         marker_placed = True
+        # player win moves are prevented over random bot moves
         if player_can_win and not marker_placed:
             for match in player_can_win:
                 for space in match:
