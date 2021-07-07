@@ -24,10 +24,31 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/cs1110" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Educational" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Checkers">
+    <configuration name="Checkers" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Learning" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Checkers.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="TicTacToe" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Learning" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -51,6 +72,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Checkers" />
         <item itemvalue="Python.TicTacToe" />
       </list>
     </recent_temporary>
@@ -67,33 +89,49 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1625002960792">
+    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1625692447194">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1625002960792" />
-    <state width="1259" height="47" key="GridCell.Tab.0.bottom" timestamp="1625085211156">
+    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1625692447194" />
+    <state width="1259" height="89" key="GridCell.Tab.0.bottom" timestamp="1625695301888">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="47" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1625085211156" />
-    <state width="1259" height="47" key="GridCell.Tab.0.center" timestamp="1625085211156">
+    <state width="1259" height="89" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1625695301888" />
+    <state width="1259" height="89" key="GridCell.Tab.0.center" timestamp="1625695301888">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="47" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1625085211156" />
-    <state width="1259" height="47" key="GridCell.Tab.0.left" timestamp="1625085211156">
+    <state width="1259" height="89" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1625695301888" />
+    <state width="1259" height="89" key="GridCell.Tab.0.left" timestamp="1625695301888">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="47" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1625085211156" />
-    <state width="1259" height="47" key="GridCell.Tab.0.right" timestamp="1625085211156">
+    <state width="1259" height="89" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1625695301888" />
+    <state width="1259" height="89" key="GridCell.Tab.0.right" timestamp="1625695301888">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="47" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1625085211156" />
+    <state width="1259" height="89" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1625695301888" />
+    <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1625694151756">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1625694151756" />
+    <state width="1259" height="204" key="GridCell.Tab.1.center" timestamp="1625694151756">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1625694151756" />
+    <state width="1259" height="204" key="GridCell.Tab.1.left" timestamp="1625694151756">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1625694151756" />
+    <state width="1259" height="204" key="GridCell.Tab.1.right" timestamp="1625694151756">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1625694151756" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1624998574078">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1624998574078" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1625084789424">
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1625694882681">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1625084789424" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1625694882681" />
   </component>
 </project>
