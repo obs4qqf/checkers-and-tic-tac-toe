@@ -5,6 +5,7 @@ class Piece:
         self.row = row
         self.col = col
         self.alive = True
+        self.selected = False
 
 
     def move_piece(self):
