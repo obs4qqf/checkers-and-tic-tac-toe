@@ -22,13 +22,13 @@ class Board:
     def space_occupied(self, row, col):
         piece_present = False
         for piece in self.pieces:
-            if piece.row == row and piece.col == col:
+            if piece.row == row and piece.col == col and piece.alive:
                 piece_present = True
         return piece_present
 
     def get_piece_at_space(self, row, col):
         for piece in self.pieces:
-            if piece.row == row and piece.col == col:
+            if piece.row == row and piece.col == col and piece.alive:
                 return piece
 
 

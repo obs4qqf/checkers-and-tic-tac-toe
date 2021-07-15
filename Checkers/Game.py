@@ -38,20 +38,28 @@ class Game:
     def move_piece(self, piece):
         need_move = True
         while need_move:
-            row = input('Pick pick a row to move your piece to (1-8): ')
-            col = input('Pick pick a column to move your piece to (1-8): ')
+            row = input('Pick pick a row to move your piece to or to capture a piece (1-8): ')
+            col = input('Pick pick a column to move your piece to or to capture a piece (1-8): ')
             try:
                 row = int(row)
                 col = int(col)
-                if 0 < row < 9 and 0 < col < 9:
-                    row -= 1
-                    col -= 1
+                row -= 1
+                col -= 1
+                valid_spaces = [[piece.row+1, piece.col+1],
+                                [piece.row-1, piece.col-1],
+                                [piece.row+1, piece.col-1],
+                                [piece.row-1, piece.col+1]]
+                if [row, col] in valid_spaces:
                     if not self.board.space_occupied(row, col):
                         piece.row = row
                         piece.col = col
                         need_move = False
                     else:
-                        print('ERROR: Pick a space without your marker')
+                        if self.board.get_piece_at_space(row, col).symbol != piece.symbol:
+                            piece.capture_piece(self.board.get_piece_at_space(row, col))
+                            need_move = False
+                        else:
+                            print('ERROR: Pick a space without your marker')
                 else:
                     print('ERROR: Pick a number in the appropriate ranges')
             except:
