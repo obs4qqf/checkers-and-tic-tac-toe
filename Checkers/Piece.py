@@ -7,9 +7,5 @@ class Piece:
         self.alive = True
         # self.selected = False
 
-
-    def move_piece(self):
-        pass
-
     def capture_piece(self):
         pass

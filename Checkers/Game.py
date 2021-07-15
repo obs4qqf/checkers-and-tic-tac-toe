@@ -24,11 +24,34 @@ class Game:
                     col -= 1
                     if self.board.space_occupied(row, col):
                         if self.board.get_piece_at_space(row, col).symbol == symbol:
+                            print('Piece selected!')
                             return self.board.get_piece_at_space(row, col)
                         else:
                             print('ERROR: Pick a space with your piece')
                     else:
                         print('ERROR: Pick a space with a marker')
+                else:
+                    print('ERROR: Pick a number in the appropriate ranges')
+            except:
+                print('ERROR: Pick a number')
+
+    def move_piece(self, piece):
+        need_move = True
+        while need_move:
+            row = input('Pick pick a row to move your piece to (1-8): ')
+            col = input('Pick pick a column to move your piece to (1-8): ')
+            try:
+                row = int(row)
+                col = int(col)
+                if 0 < row < 9 and 0 < col < 9:
+                    row -= 1
+                    col -= 1
+                    if not self.board.space_occupied(row, col):
+                        piece.row = row
+                        piece.col = col
+                        need_move = False
+                    else:
+                        print('ERROR: Pick a space without your marker')
                 else:
                     print('ERROR: Pick a number in the appropriate ranges')
             except:
@@ -42,7 +65,9 @@ def main():
     print('Welcome to Checkers')
     while not game.game_won():
         if game.player1_turn:
-            game.pick_piece('O')
+            piece = game.pick_piece('O')
+            game.move_piece(piece)
+            game.board.draw_board()
         else:
             pass
 
