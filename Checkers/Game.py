@@ -23,9 +23,13 @@ class Game:
                     row -= 1
                     col -= 1
                     if self.board.space_occupied(row, col):
-                        if self.board.get_piece_at_space(row, col).symbol == symbol:
-                            print('Piece selected!')
-                            return self.board.get_piece_at_space(row, col)
+                        piece = self.board.get_piece_at_space(row, col)
+                        if piece.symbol == symbol:
+                            if self.board.can_move_piece(piece):
+                                print('Piece selected!')
+                                return self.board.get_piece_at_space(row, col)
+                            else:
+                                print('ERROR: Pick a piece that can be moved')
                         else:
                             print('ERROR: Pick a space with your piece')
                     else:
@@ -45,11 +49,7 @@ class Game:
                 col = int(col)
                 row -= 1
                 col -= 1
-                valid_spaces = [[piece.row+1, piece.col+1],
-                                [piece.row-1, piece.col-1],
-                                [piece.row+1, piece.col-1],
-                                [piece.row-1, piece.col+1]]
-                if [row, col] in valid_spaces:
+                if [row, col] in piece.valid_moves:
                     if not self.board.space_occupied(row, col):
                         piece.row = row
                         piece.col = col

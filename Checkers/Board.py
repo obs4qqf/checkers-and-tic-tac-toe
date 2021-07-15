@@ -31,6 +31,15 @@ class Board:
             if piece.row == row and piece.col == col and piece.alive:
                 return piece
 
+    def can_move_piece(self, piece):
+        moves_available = True
+        for moves in piece.valid_moves:
+            new_row = moves[0]
+            new_col = moves[1]
+            if 0 < new_row < 9 and 0 < new_col < 9:
+                if self.space_occupied(new_row, new_col):
+                    moves_available = False
+        return moves_available
 
     def can_capture_piece(self):
         pass
