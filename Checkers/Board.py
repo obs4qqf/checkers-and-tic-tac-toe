@@ -33,26 +33,35 @@ class Board:
 
     def can_move_piece(self, piece):
         moves_available = False
-        for moves in piece.valid_moves:
-            new_row = moves[0]
-            new_col = moves[1]
-            if 0 < new_row < 9 and 0 < new_col < 9:
+        for move in piece.get_valid_moves():
+            new_row = move[0]
+            new_col = move[1]
+            if -1 < new_row <= 8 and -1 < new_col < 8:
                 if self.space_occupied(new_row, new_col):
                     nearby_piece = self.get_piece_at_space(new_row, new_col)
                     if nearby_piece.symbol == piece.symbol:
+                        print('occupied by same')
                         moves_available = moves_available or False
                     if nearby_piece.symbol != piece.symbol:
+                        print(moves_available + 'before')
                         moves_available = moves_available or self.can_capture_piece(piece, nearby_piece)
+                        print(moves_available + 'after')
                 else:
+                    print('unoccupied')
                     moves_available = moves_available or True
         return moves_available
 
     def can_capture_piece(self, piece1, piece2):
         row_diff = piece2.row - piece1.row
         col_diff = piece2.col - piece1.col
-        opp_row = row_diff * -1
-        opp_col = col_diff * -1
-        return self.space_occupied(piece2.row + opp_row, piece2.col + opp_col)
+        opp_row = (row_diff * -1) + piece2.row
+        opp_col = (col_diff * -1) + piece2.col
+        if -1 < opp_row <= 8 and -1 < opp_col < 8:
+            print('diff piece opp in range')
+            return self.space_occupied(opp_row, opp_col)
+        else:
+            print('diff piece opp not in range')
+            return False
 
 
 

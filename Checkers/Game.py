@@ -47,9 +47,12 @@ class Game:
             try:
                 row = int(row)
                 col = int(col)
+                # print([row, col])
                 row -= 1
                 col -= 1
-                if [row, col] in piece.valid_moves:
+                # print([row, col])
+                # print(piece.get_valid_moves())
+                if [row, col] in piece.get_valid_moves():
                     if not self.board.space_occupied(row, col):
                         piece.row = row
                         piece.col = col
@@ -61,7 +64,7 @@ class Game:
                         else:
                             print('ERROR: Pick a space without your marker')
                 else:
-                    print('ERROR: Pick a number in the appropriate ranges')
+                    print('ERROR: Pick a valid space nearby your piece')
             except:
                 print('ERROR: Pick a number')
 
