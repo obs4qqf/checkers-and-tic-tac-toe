@@ -19,11 +19,14 @@ class Game:
             try:
                 row = int(row)
                 col = int(col)
-                if 0<row<9 and 0<col<9:
+                if 0 < row < 9 and 0 < col < 9:
                     row -= 1
                     col -= 1
                     if self.board.space_occupied(row, col):
-                        print('true')
+                        if self.board.get_piece_at_space(row, col).symbol == symbol:
+                            return self.board.get_piece_at_space(row, col)
+                        else:
+                            print('ERROR: Pick a space with your piece')
                     else:
                         print('ERROR: Pick a space with a marker')
                 else:

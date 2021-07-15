@@ -26,10 +26,10 @@ class Board:
                 piece_present = True
         return piece_present
 
-    # def get_piece_at_space(self, row, col):
-    #     for piece in self.pieces:
-    #         if piece.row == row and piece.col == col:
-    #             return piece
+    def get_piece_at_space(self, row, col):
+        for piece in self.pieces:
+            if piece.row == row and piece.col == col:
+                return piece
 
 
     def can_capture_piece(self):
