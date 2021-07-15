@@ -32,20 +32,32 @@ class Board:
                 return piece
 
     def can_move_piece(self, piece):
-        moves_available = True
+        moves_available = False
         for moves in piece.valid_moves:
             new_row = moves[0]
             new_col = moves[1]
             if 0 < new_row < 9 and 0 < new_col < 9:
                 if self.space_occupied(new_row, new_col):
-                    moves_available = False
+                    nearby_piece = self.get_piece_at_space(new_row, new_col)
+                    if nearby_piece.symbol == piece.symbol:
+                        moves_available = moves_available or False
+                    if nearby_piece.symbol != piece.symbol:
+                        moves_available = moves_available or self.can_capture_piece(piece, nearby_piece)
+                else:
+                    moves_available = moves_available or True
         return moves_available
 
-    def can_capture_piece(self):
-        pass
+    def can_capture_piece(self, piece1, piece2):
+        row_diff = piece2.row - piece1.row
+        col_diff = piece2.col - piece1.col
+        opp_row = row_diff * -1
+        opp_col = col_diff * -1
+        return self.space_occupied(piece2.row + opp_row, piece2.col + opp_col)
+
+
 
 # def main():
-#     Board('O','X').draw_board()
+#
 #
 #
 # if __name__ == "__main__":
