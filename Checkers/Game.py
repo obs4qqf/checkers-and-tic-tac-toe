@@ -11,7 +11,7 @@ class Game:
     def game_won(self):
         return False
 
-    def pick_piece(self):
+    def pick_piece(self, symbol):
         need_piece = True
         while need_piece:
             row = input('Pick pick a row with your piece (1-8): ')
@@ -22,21 +22,24 @@ class Game:
                 if 0<row<9 and 0<col<9:
                     row -= 1
                     col -= 1
-                    for piece in self.board.pieces:
-                        if piece.row == row and piece.col == col:
-                            piece.selected = True
+                    if self.board.space_occupied(row, col):
+                        print('true')
+                    else:
+                        print('ERROR: Pick a space with a marker')
                 else:
                     print('ERROR: Pick a number in the appropriate ranges')
             except:
                 print('ERROR: Pick a number')
 
 def main():
-    game = Game('O', 'X')
+    symbol1 = 'O'
+    symbol2 = 'X'
+    game = Game(symbol1, symbol2)
     game.board.draw_board()
     print('Welcome to Checkers')
     while not game.game_won():
         if game.player1_turn:
-            game.pick_piece()
+            game.pick_piece('O')
         else:
             pass
 

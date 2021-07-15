@@ -19,8 +19,18 @@ class Board:
         for row in board:
             print(f'{row[0]}|{row[1]}|{row[2]}|{row[3]}|{row[4]}|{row[5]}|{row[6]}|{row[7]}')
 
-    def space_occupied(self):
-        pass
+    def space_occupied(self, row, col):
+        piece_present = False
+        for piece in self.pieces:
+            if piece.row == row and piece.col == col:
+                piece_present = True
+        return piece_present
+
+    # def get_piece_at_space(self, row, col):
+    #     for piece in self.pieces:
+    #         if piece.row == row and piece.col == col:
+    #             return piece
+
 
     def can_capture_piece(self):
         pass
