@@ -47,20 +47,21 @@ class Game:
             try:
                 row = int(row)
                 col = int(col)
-                # print([row, col])
                 row -= 1
                 col -= 1
-                # print([row, col])
-                # print(piece.get_valid_moves())
                 if [row, col] in piece.get_valid_moves():
                     if not self.board.space_occupied(row, col):
                         piece.row = row
                         piece.col = col
                         need_move = False
                     else:
-                        if self.board.get_piece_at_space(row, col).symbol != piece.symbol:
-                            piece.capture_piece(self.board.get_piece_at_space(row, col))
-                            need_move = False
+                        nearby_piece = self.board.get_piece_at_space(row, col)
+                        if nearby_piece.symbol != piece.symbol:
+                            if self.board.can_capture_piece(piece, nearby_piece):
+                                piece.capture_piece(nearby_piece)
+                                need_move = False
+                            else:
+                                print('ERROR: The piece you have selected cannot be captured')
                         else:
                             print('ERROR: Pick a space without your marker')
                 else:
@@ -76,11 +77,17 @@ def main():
     print('Welcome to Checkers')
     while not game.game_won():
         if game.player1_turn:
+            print('Player', symbol1, 'turn')
             piece = game.pick_piece('O')
             game.move_piece(piece)
             game.board.draw_board()
+            game.player1_turn = False
         else:
-            pass
+            print('Player', symbol2, 'turn')
+            piece = game.pick_piece('X')
+            game.move_piece(piece)
+            game.board.draw_board()
+            game.player1_turn = True
 
 if __name__ == "__main__":
     main()
