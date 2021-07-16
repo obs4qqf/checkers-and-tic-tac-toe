@@ -2,8 +2,16 @@ import Board
 
 
 class Game:
+    """
+    Defines basic board game objects and general checkers game methods.
+    """
 
     def __init__(self, symbol1, symbol2):
+        """
+        Creates a Game object to begin checkers game
+        :param symbol1: Player 1's marker symbol as a string
+        :param symbol2: Player 2's marker symbol as a string
+        """
         self.board = Board.Board(symbol1, symbol2)
         self.player1_turn = True
 
@@ -12,6 +20,11 @@ class Game:
         return False
 
     def pick_piece(self, symbol):
+        """
+        Allows the player to pick a piece and checks if that piece is valid to pick
+        :param symbol: The current player's piece symbol as a string
+        :return: The chosen piece as a Piece object
+        """
         need_piece = True
         while need_piece:
             row = input('Pick pick a row with your piece (1-8): ')
@@ -40,6 +53,10 @@ class Game:
                 print('ERROR: Pick a number')
 
     def move_piece(self, piece):
+        """
+        Moves the selected piece to a valid nearby location that the player defines
+        :param piece: The piece selected previously as a Piece object
+        """
         need_move = True
         while need_move:
             row = input('Pick pick a row to move your piece to or to capture a piece (1-8): ')
@@ -70,6 +87,9 @@ class Game:
                 print('ERROR: Pick a number')
 
 def main():
+    """
+    Defines the main game loop
+    """
     symbol1 = 'O'
     symbol2 = 'X'
     game = Game(symbol1, symbol2)
