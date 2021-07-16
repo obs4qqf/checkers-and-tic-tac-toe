@@ -48,10 +48,8 @@ class Board:
         return moves_available
 
     def can_capture_piece(self, piece1, piece2):
-        row_diff = piece2.row - piece1.row
-        col_diff = piece2.col - piece1.col
-        opp_row = row_diff + piece2.row
-        opp_col = col_diff + piece2.col
+        opp_row = piece1.get_piece_jumping_position(piece2)['opp_row']
+        opp_col = piece1.get_piece_jumping_position(piece2)['opp_col']
         if -1 < opp_row <= 8 and -1 < opp_col < 8:
             return not self.space_occupied(opp_row, opp_col)
         else:

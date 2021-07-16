@@ -83,6 +83,7 @@ def main():
             game.board.draw_board()
             game.player1_turn = False
         else:
+            # pass
             print('Player', symbol2, 'turn')
             piece = game.pick_piece('X')
             game.move_piece(piece)
