@@ -21,7 +21,7 @@ class Piece:
         :param captured_piece: The piece to be captured
         :return: The row and column number of the position as integers in a dictionary
         """
-        row_diff = captured_piece.row - self.row
+        row_diff = captured_piece.row - self.row  # Compares the row/column numbers of the two pieces
         col_diff = captured_piece.col - self.col
         opp_row = row_diff + captured_piece.row
         opp_col = col_diff + captured_piece.col

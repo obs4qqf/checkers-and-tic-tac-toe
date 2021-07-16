@@ -12,6 +12,7 @@ class Board:
         :param symbol1: Player 1's marker symbol as a string
         :param symbol2: Player 2's marker symbol as a string
         """
+        # Inactive pieces remain in the pieces array, but have an attribute of alive = False
         self.pieces = [Piece.Piece(symbol1, 0, 1), Piece.Piece(symbol1, 0, 3), Piece.Piece(symbol1, 0, 5), Piece.Piece(symbol1, 0, 7),
                        Piece.Piece(symbol1, 1, 0), Piece.Piece(symbol1, 1, 2), Piece.Piece(symbol1, 1, 4), Piece.Piece(symbol1, 1, 6),
                        Piece.Piece(symbol1, 2, 1), Piece.Piece(symbol1, 2, 3), Piece.Piece(symbol1, 2, 5), Piece.Piece(symbol1, 2, 7),
@@ -23,7 +24,7 @@ class Board:
         """
         Prints the board based on the positions of each Piece object in the board
         """
-        board = [[' ' for x in range(8)] for x in range(8)]
+        board = [[' ' for x in range(8)] for x in range(8)]  # An empty board is drawn
         for piece in self.pieces:
             if piece.alive:
                 board[piece.row][piece.col] = piece.symbol
@@ -39,7 +40,7 @@ class Board:
         """
         piece_present = False
         for piece in self.pieces:
-            if piece.row == row and piece.col == col and piece.alive:
+            if piece.row == row and piece.col == col and piece.alive:  # Only alive pieces are checked
                 piece_present = True
         return piece_present
 
@@ -63,16 +64,15 @@ class Board:
         """
         moves_available = False
         for move in piece.get_valid_moves():
-            new_row = move[0]
+            new_row = move[0]  # Records a potential row/column to move to
             new_col = move[1]
-            if -1 < new_row <= 8 and -1 < new_col < 8:
+            if -1 < new_row <= 8 and -1 < new_col < 8:  # Checks if row/column is on the board
                 if self.space_occupied(new_row, new_col):
                     nearby_piece = self.get_piece_at_space(new_row, new_col)
-                    if nearby_piece.symbol == piece.symbol:
-                        moves_available = moves_available or False
                     if nearby_piece.symbol != piece.symbol:
+                        # This checks if the opponent's piece (that is nearby the player's piece) can be captured
                         moves_available = moves_available or self.can_capture_piece(piece, nearby_piece)
-                else:
+                else:  # This is entered if the space is unoccupied
                     moves_available = moves_available or True
         return moves_available
 
@@ -85,7 +85,7 @@ class Board:
         """
         opp_row = piece1.get_piece_jumping_position(piece2)['opp_row']
         opp_col = piece1.get_piece_jumping_position(piece2)['opp_col']
-        if -1 < opp_row <= 8 and -1 < opp_col < 8:
+        if -1 < opp_row <= 8 and -1 < opp_col < 8:  # Checks if the position after jumping is on the board
             return not self.space_occupied(opp_row, opp_col)
         else:
             return False
