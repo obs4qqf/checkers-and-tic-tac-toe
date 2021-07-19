@@ -112,6 +112,7 @@ def main():
             print('Player', symbol1, 'turn')
             piece = game.pick_piece('O')
             game.move_piece(piece)
+            game.board.make_piece_king(piece)
             game.board.draw_board()
             if game.game_won():
                 break
@@ -121,6 +122,7 @@ def main():
             print('Player', symbol2, 'turn')
             piece = game.pick_piece('X')
             game.move_piece(piece)
+            game.board.make_piece_king(piece)
             game.board.draw_board()
             if game.game_won():
                 break

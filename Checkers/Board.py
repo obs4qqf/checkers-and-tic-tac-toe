@@ -1,5 +1,5 @@
 import Piece
-
+import King
 
 class Board:
     """
@@ -105,6 +105,14 @@ class Board:
                 player2 = False
         return player1 and player2
 
+    def make_piece_king(self, piece):
+        if piece.player == 1 and piece.row == 7:
+            piece.alive = False
+            self.pieces.append(King.King('@', piece.row, piece.col, piece.player))
+        if piece.player == 2 and piece.row == 0:
+            piece.alive = False
+            self.pieces.append(King.King('%', piece.row, piece.col, piece.player))
+
     def init_piece_positions(self, symbol1, symbol2):
         """
         Places pieces in specific positions for testing purposes
@@ -112,8 +120,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol2, 2, 0, 2), Piece.Piece(symbol1, 0, 0, 1), Piece.Piece(symbol1, 0, 2, 1),
-                       Piece.Piece(symbol1, 3, 1, 1), Piece.Piece(symbol1, 4, 2, 1)]
+        self.pieces = [Piece.Piece(symbol2, 2, 7, 2), Piece.Piece(symbol1, 0, 0, 1)]
 
 # def main():
 #
