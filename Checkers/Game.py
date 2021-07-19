@@ -29,10 +29,10 @@ class Game:
                 moves_available_2 = True
         return not (moves_available_1 and moves_available_2)
 
-    def pick_piece(self, symbol):
+    def pick_piece(self, player):
         """
         Allows the player to pick a piece and checks if that piece is valid to pick
-        :param symbol: The current player's piece symbol as a string
+        :param player: The current player as an integer
         :return: The chosen piece as a Piece object
         """
         need_piece = True
@@ -47,7 +47,7 @@ class Game:
                     col -= 1
                     if self.board.space_occupied(row, col):
                         piece = self.board.get_piece_at_space(row, col)
-                        if piece.symbol == symbol:
+                        if piece.player == player:
                             if self.board.can_move_piece(piece):  # Checks if piece can move/capture another piece
                                 print('Piece selected!')
                                 return self.board.get_piece_at_space(row, col)
@@ -83,7 +83,7 @@ class Game:
                         need_move = False
                     else:
                         nearby_piece = self.board.get_piece_at_space(row, col)
-                        if nearby_piece.symbol != piece.symbol:  # Checks if space is occupied by opponent's piece
+                        if nearby_piece.player != piece.player:  # Checks if space is occupied by opponent's piece
                             if self.board.can_capture_piece(piece, nearby_piece):
                                 piece.capture_piece(nearby_piece)
                                 need_move = False
@@ -109,8 +109,8 @@ def main():
     print('Welcome to Checkers')
     while not game.game_won():
         if game.player1_turn:
-            print('Player', symbol1, 'turn')
-            piece = game.pick_piece('O')
+            print('Player 1 turn, piece symbol:', symbol1)
+            piece = game.pick_piece(1)
             game.move_piece(piece)
             game.board.make_piece_king(piece)
             game.board.draw_board()
@@ -119,8 +119,8 @@ def main():
             game.player1_turn = False
         else:
             # pass
-            print('Player', symbol2, 'turn')
-            piece = game.pick_piece('X')
+            print('Player 2 turn, piece symbol:', symbol2)
+            piece = game.pick_piece(2)
             game.move_piece(piece)
             game.board.make_piece_king(piece)
             game.board.draw_board()

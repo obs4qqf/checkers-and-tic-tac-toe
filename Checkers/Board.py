@@ -73,7 +73,7 @@ class Board:
             if -1 < new_row <= 8 and -1 < new_col < 8:  # Checks if row/column is on the board
                 if self.space_occupied(new_row, new_col):
                     nearby_piece = self.get_piece_at_space(new_row, new_col)
-                    if nearby_piece.symbol != piece.symbol:
+                    if nearby_piece.player != piece.player:
                         # This checks if the opponent's piece (that is nearby the player's piece) can be captured
                         moves_available = moves_available or self.can_capture_piece(piece, nearby_piece)
                 else:  # This is entered if the space is unoccupied
