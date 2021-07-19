@@ -94,6 +94,17 @@ class Board:
         else:
             return False
 
+    def check_board_empty(self):
+        player1 = True
+        player2 = True
+        for piece in self.pieces:
+            if piece.alive and piece.player == 1:
+                player1 = False
+        for piece in self.pieces:
+            if piece.alive and piece.player == 2:
+                player2 = False
+        return player1 and player2
+
     def init_piece_positions(self, symbol1, symbol2):
         """
         Places pieces in specific positions for testing purposes
@@ -101,7 +112,8 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol1, 0, 1, 1)]
+        self.pieces = [Piece.Piece(symbol2, 2, 0, 2), Piece.Piece(symbol1, 0, 0, 1), Piece.Piece(symbol1, 0, 2, 1),
+                       Piece.Piece(symbol1, 3, 1, 1), Piece.Piece(symbol1, 4, 2, 1)]
 
 # def main():
 #

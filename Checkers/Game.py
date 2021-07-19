@@ -17,7 +17,17 @@ class Game:
 
 
     def game_won(self):
-        return False
+        if self.board.check_board_empty():
+            return True
+        moves_available_1 = False
+        moves_available_2 = False
+        for piece in self.board.pieces:
+            if self.board.can_move_piece(piece) and piece.alive and piece.player == 1:
+                moves_available_1 = True
+        for piece in self.board.pieces:
+            if self.board.can_move_piece(piece) and piece.alive and piece.player == 2:
+                moves_available_2 = True
+        return not (moves_available_1 and moves_available_2)
 
     def pick_piece(self, symbol):
         """
@@ -94,7 +104,7 @@ def main():
     symbol2 = 'X'
     game = Game(symbol1, symbol2)
     # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
-    # game.player1_turn = False  # used for debugging purposes
+    # game.player1_turn = True  # used for debugging purposes
     game.board.draw_board()
     print('Welcome to Checkers')
     while not game.game_won():
@@ -103,6 +113,8 @@ def main():
             piece = game.pick_piece('O')
             game.move_piece(piece)
             game.board.draw_board()
+            if game.game_won():
+                break
             game.player1_turn = False
         else:
             # pass
@@ -110,7 +122,13 @@ def main():
             piece = game.pick_piece('X')
             game.move_piece(piece)
             game.board.draw_board()
+            if game.game_won():
+                break
             game.player1_turn = True
+    if game.player1_turn:
+        print('Player 1 has won')
+    else:
+        print('Player 2 has won')
 
 if __name__ == "__main__":
     main()
