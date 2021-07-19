@@ -93,6 +93,8 @@ def main():
     symbol1 = 'O'
     symbol2 = 'X'
     game = Game(symbol1, symbol2)
+    # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
+    # game.player1_turn = False  # used for debugging purposes
     game.board.draw_board()
     print('Welcome to Checkers')
     while not game.game_won():

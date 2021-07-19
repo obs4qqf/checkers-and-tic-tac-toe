@@ -24,12 +24,16 @@ class Board:
         """
         Prints the board based on the positions of each Piece object in the board
         """
+        rowLabel = 1
         board = [[' ' for x in range(8)] for x in range(8)]  # An empty board is drawn
         for piece in self.pieces:
             if piece.alive:
                 board[piece.row][piece.col] = piece.symbol
+        print('  1|2|3|4|5|6|7|8')
         for row in board:
-            print(f'{row[0]}|{row[1]}|{row[2]}|{row[3]}|{row[4]}|{row[5]}|{row[6]}|{row[7]}')
+            print(f'{rowLabel} {row[0]}|{row[1]}|{row[2]}|{row[3]}|{row[4]}|{row[5]}|{row[6]}|{row[7]}')
+            rowLabel += 1
+        print('  1|2|3|4|5|6|7|8')
 
     def space_occupied(self, row, col):
         """
@@ -90,7 +94,14 @@ class Board:
         else:
             return False
 
-
+    def init_piece_positions(self, symbol1, symbol2):
+        """
+        Places pieces in specific positions for testing purposes
+        :param symbol1: Player 1's symbol
+        :param symbol2: Player 2's symbol
+        :return:
+        """
+        self.pieces = [Piece.Piece(symbol1, 0, 1)]
 
 # def main():
 #
