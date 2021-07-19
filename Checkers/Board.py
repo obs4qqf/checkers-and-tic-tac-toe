@@ -13,12 +13,12 @@ class Board:
         :param symbol2: Player 2's marker symbol as a string
         """
         # Inactive pieces remain in the pieces array, but have an attribute of alive = False
-        self.pieces = [Piece.Piece(symbol1, 0, 1), Piece.Piece(symbol1, 0, 3), Piece.Piece(symbol1, 0, 5), Piece.Piece(symbol1, 0, 7),
-                       Piece.Piece(symbol1, 1, 0), Piece.Piece(symbol1, 1, 2), Piece.Piece(symbol1, 1, 4), Piece.Piece(symbol1, 1, 6),
-                       Piece.Piece(symbol1, 2, 1), Piece.Piece(symbol1, 2, 3), Piece.Piece(symbol1, 2, 5), Piece.Piece(symbol1, 2, 7),
-                       Piece.Piece(symbol2, 5, 0), Piece.Piece(symbol2, 5, 2), Piece.Piece(symbol2, 5, 4), Piece.Piece(symbol2, 5, 6),
-                       Piece.Piece(symbol2, 6, 1), Piece.Piece(symbol2, 6, 3), Piece.Piece(symbol2, 6, 5), Piece.Piece(symbol2, 6, 7),
-                       Piece.Piece(symbol2, 7, 0), Piece.Piece(symbol2, 7, 2), Piece.Piece(symbol2, 7, 4), Piece.Piece(symbol2, 7, 6)]
+        self.pieces = [Piece.Piece(symbol1, 0, 1, 1), Piece.Piece(symbol1, 0, 3, 1), Piece.Piece(symbol1, 0, 5, 1), Piece.Piece(symbol1, 0, 7, 1),
+                       Piece.Piece(symbol1, 1, 0, 1), Piece.Piece(symbol1, 1, 2, 1), Piece.Piece(symbol1, 1, 4, 1), Piece.Piece(symbol1, 1, 6, 1),
+                       Piece.Piece(symbol1, 2, 1, 1), Piece.Piece(symbol1, 2, 3, 1), Piece.Piece(symbol1, 2, 5, 1), Piece.Piece(symbol1, 2, 7, 1),
+                       Piece.Piece(symbol2, 5, 0, 2), Piece.Piece(symbol2, 5, 2, 2), Piece.Piece(symbol2, 5, 4, 2), Piece.Piece(symbol2, 5, 6, 2),
+                       Piece.Piece(symbol2, 6, 1, 2), Piece.Piece(symbol2, 6, 3, 2), Piece.Piece(symbol2, 6, 5, 2), Piece.Piece(symbol2, 6, 7, 2),
+                       Piece.Piece(symbol2, 7, 0, 2), Piece.Piece(symbol2, 7, 2, 2), Piece.Piece(symbol2, 7, 4, 2), Piece.Piece(symbol2, 7, 6, 2)]
 
     def draw_board(self):
         """
@@ -101,7 +101,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol1, 0, 1)]
+        self.pieces = [Piece.Piece(symbol1, 0, 1, 1)]
 
 # def main():
 #

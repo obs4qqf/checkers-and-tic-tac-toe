@@ -3,7 +3,7 @@ class Piece:
     Records the location, activity, and player assigned to a checkers marker
     """
 
-    def __init__(self, symbol, row, col):
+    def __init__(self, symbol, row, col, player):
         """
         Creates a checkers marker
         :param symbol: The marker symbol as a string
@@ -14,6 +14,7 @@ class Piece:
         self.row = row
         self.col = col
         self.alive = True
+        self.player = player
 
     def get_piece_jumping_position(self, captured_piece):
         """
@@ -42,8 +43,10 @@ class Piece:
         Checks for the positions of immediately-located squares on the diagonals nearby the current piece
         :return: The coordinates of squares a piece may move to in a nested array object
         """
-        valid_moves = [[self.row + 1, self.col + 1],
-                       [self.row - 1, self.col - 1],
-                       [self.row + 1, self.col - 1],
-                       [self.row - 1, self.col + 1]]
+        if self.player == 1:
+            valid_moves = [[self.row + 1, self.col + 1],
+                           [self.row + 1, self.col - 1]]
+        else:
+            valid_moves = [[self.row - 1, self.col - 1],
+                           [self.row - 1, self.col + 1]]
         return valid_moves
