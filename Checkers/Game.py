@@ -1,5 +1,5 @@
 import Board
-
+import math
 
 class Game:
     """
@@ -106,6 +106,45 @@ class Game:
             if answer == 'No':
                 need_answer = False
                 return False
+
+    def comp_move(self):
+        best_score = -math.inf
+        best_move = {'piece': None, 'move': [None, None]}
+        for piece in self.board.pieces:
+            if self.board.can_move_piece(piece):
+                for move in self.board.get_available_moves(piece):
+                    old_row = piece.row
+                    old_col = piece.col
+                    piece.row = move[0]
+                    piece.col = move[1]
+                    score = self.minimax(0)
+                    piece.row = old_row
+                    piece.col = old_col
+                    if score > best_score:
+                        best_score = score
+                        best_move.piece = piece
+                        best_move = move
+        best_move.piece.row = best_move.move[0]
+        best_move.piece.col = best_move.move[1]
+
+    def minimax(self, depth):
+        best_score = -math.inf
+        if depth >= 1:
+            return self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1)
+        for piece in self.board.pieces:
+            if self.board.can_move_piece(piece):
+                for move in self.board.get_available_moves(piece):
+                    old_row = piece.row
+                    old_col = piece.col
+                    piece.row = move[0]
+                    piece.col = move[1]
+                    score = self.minimax(0)
+                    piece.row = old_row
+                    piece.col = old_col
+                    best_score = max(score, best_score)
+        return best_score
+
+
 
 def main():
     """

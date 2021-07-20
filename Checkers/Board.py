@@ -113,6 +113,23 @@ class Board:
             piece.alive = False
             self.pieces.append(King.King('%', piece.row, piece.col, piece.player))
 
+    def get_game_state(self):
+        board = [[' ' for x in range(8)] for x in range(8)]  # Empty board is drawn
+        for piece in self.pieces:
+            if piece.alive:
+                board[piece.row][piece.col] = piece
+        return board
+
+    def get_pieces_amount(self, player):
+        count = 0
+        for piece in self.pieces:
+            if piece.alive and piece.player == player:
+                count += 1
+        return count
+
+    def get_available_moves(self, piece):
+        return [1, 1]
+
     def init_piece_positions(self, symbol1, symbol2):
         """
         Places pieces in specific positions for testing purposes
