@@ -96,41 +96,59 @@ class Game:
             except:
                 print('ERROR: Pick a number')
 
+    def restart_game_prompt(self):
+        need_answer = True
+        while need_answer:
+            answer = input('Do you want to play again? (Yes/No) ')
+            if answer == 'Yes':
+                need_answer = False
+                return True
+            if answer == 'No':
+                need_answer = False
+                return False
+
 def main():
     """
     Defines the main game loop
     """
     symbol1 = 'O'
     symbol2 = 'X'
-    game = Game(symbol1, symbol2)
-    # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
-    # game.player1_turn = True  # used for debugging purposes
-    game.board.draw_board()
-    print('Welcome to Checkers')
-    while not game.game_won():
+    game_on = True
+    while game_on:
+        game = Game(symbol1, symbol2)
+        # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
+        # game.player1_turn = True  # used for debugging purposes
+        game.board.draw_board()
+        print('Welcome to Checkers')
+        while not game.game_won():
+            if game.player1_turn:
+                print('Player 1 turn, piece symbol:', symbol1)
+                piece = game.pick_piece(1)
+                game.move_piece(piece)
+                game.board.make_piece_king(piece)
+                game.board.draw_board()
+                if game.game_won():
+                    break
+                game.player1_turn = False
+            else:
+                # pass
+                print('Player 2 turn, piece symbol:', symbol2)
+                piece = game.pick_piece(2)
+                game.move_piece(piece)
+                game.board.make_piece_king(piece)
+                game.board.draw_board()
+                if game.game_won():
+                    break
+                game.player1_turn = True
         if game.player1_turn:
-            print('Player 1 turn, piece symbol:', symbol1)
-            piece = game.pick_piece(1)
-            game.move_piece(piece)
-            game.board.make_piece_king(piece)
-            game.board.draw_board()
-            if game.game_won():
-                break
-            game.player1_turn = False
+            print('Player 1 has won')
+            if not game.restart_game_prompt():
+                game_on = False
         else:
-            # pass
-            print('Player 2 turn, piece symbol:', symbol2)
-            piece = game.pick_piece(2)
-            game.move_piece(piece)
-            game.board.make_piece_king(piece)
-            game.board.draw_board()
-            if game.game_won():
-                break
-            game.player1_turn = True
-    if game.player1_turn:
-        print('Player 1 has won')
-    else:
-        print('Player 2 has won')
+            print('Player 2 has won')
+            if not game.restart_game_prompt():
+                game_on = False
+    print('The game has ended')
 
 if __name__ == "__main__":
     main()
