@@ -17,16 +17,21 @@ class Game:
 
 
     def game_won(self):
-        if self.board.check_board_empty():
+        """
+        Checks if the game is won (if no moves are left or if a player loses all pieces)
+        :return: Whether the game has been won as a boolean
+        """
+        if self.board.player_has_no_pieces():
             return True
-        moves_available_1 = False
+        moves_available_1 = False  # Tracks whether player 1 still has moves left to make
         moves_available_2 = False
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.alive and piece.player == 1:
-                moves_available_1 = True
+                moves_available_1 = True  # The player can move an active piece
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.alive and piece.player == 2:
                 moves_available_2 = True
+        # If moves are available (True), the game is not won, so game_won should return False
         return not (moves_available_1 and moves_available_2)
 
     def pick_piece(self, player):
@@ -97,6 +102,10 @@ class Game:
                 print('ERROR: Pick a number')
 
     def restart_game_prompt(self):
+        """
+        Asks the player whether they would like to continue the game after a win/loss
+        :return:
+        """
         need_answer = True
         while need_answer:
             answer = input('Do you want to play again? (Yes/No) ')
@@ -110,37 +119,46 @@ class Game:
                 print('ERROR: Input not defined, please enter Yes or No')
 
     def comp_move(self):
+        """
+        Allows the computer to pick and move a checkers piece
+        """
         best_score = -math.inf
         best_move = {'piece': None, 'move': [0, 0, None]}
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.player == 2:
                 for move in self.board.get_available_moves(piece):
-                    old_row = piece.row
+                    old_row = piece.row  # This stores the current position of a piece so it can be moved back later
                     old_col = piece.col
-                    if move[2]:
+                    if move[2]:  # This is entered if the current analyzed move is a capturing move
                         piece.capture_piece(move[2])
-                    else:
+                    else:  # This is entered if the current move is just a change in location
                         piece.row = move[0]
                         piece.col = move[1]
                     score = self.minimax(0, 1)
                     if move[2]:
-                        move[2].alive = True
-                    piece.row = old_row
+                        move[2].alive = True  # This makes the captured piece alive again to reset the board
+                    piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
                     if score > best_score:
                         best_score = score
                         best_move['piece'] = piece
                         best_move['move'] = move
-        if best_move['move'][2]:
+        if best_move['move'][2]:  # This is entered if the best move is a piece-capturing move
             best_move['piece'].capture_piece(best_move['move'][2])
-        else:
+        else:  # This is entered if the best move is a change in location
             best_move['piece'].row = best_move['move'][0]
             best_move['piece'].col = best_move['move'][1]
 
     def minimax(self, depth, player):
-        if depth >= 1:
+        """
+        Determines the best possible move that can be made for the near future using recursion
+        :param depth: The amount of future events that should be considered as an integer
+        :param player: The player's possible future decisions that are being analyzed
+        :return:
+        """
+        if depth >= 2:  # Base case that considers the difference in pieces between the two players
             return self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1)
-        if player == 1:  # Minimizing player
+        if player == 1:  # Minimizing player (player 1)
             best_score = math.inf
             for piece in self.board.pieces:
                 if self.board.can_move_piece(piece) and piece.player == player:
@@ -158,7 +176,7 @@ class Game:
                         piece.row = old_row
                         piece.col = old_col
                         best_score = min(score, best_score)
-        if player == 2:  # Maximizing player
+        if player == 2:  # Maximizing player (Player 2 or computer)
             best_score = -math.inf
             for piece in self.board.pieces:
                 if self.board.can_move_piece(piece) and piece.player == player:
@@ -189,8 +207,8 @@ def main():
     game_on = True
     while game_on:
         game = Game(symbol1, symbol2)
-        game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
-        game.player1_turn = True  # used for debugging purposes
+        # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
+        # game.player1_turn = True  # used for debugging purposes
         game.board.draw_board()
         print('Welcome to Checkers')
         while not game.game_won():
@@ -206,13 +224,6 @@ def main():
             else:
                 # pass
                 print('Player 2 turn, piece symbol:', symbol2)
-                # piece = game.pick_piece(2)
-                # game.move_piece(piece)
-                # game.board.make_piece_king(piece)
-                # game.board.draw_board()
-                # if game.game_won():
-                #     break
-                # game.player1_turn = True
                 game.comp_move()
                 game.board.make_piece_king(piece)
                 game.board.draw_board()

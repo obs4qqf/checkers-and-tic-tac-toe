@@ -94,7 +94,7 @@ class Board:
         else:
             return False
 
-    def check_board_empty(self):
+    def player_has_no_pieces(self):
         player1 = True
         player2 = True
         for piece in self.pieces:
