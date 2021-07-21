@@ -113,13 +113,6 @@ class Board:
             piece.alive = False
             self.pieces.append(King.King('%', piece.row, piece.col, piece.player))
 
-    def get_game_state(self):
-        board = [[' ' for x in range(8)] for x in range(8)]  # Empty board is drawn
-        for piece in self.pieces:
-            if piece.alive:
-                board[piece.row][piece.col] = piece
-        return board
-
     def get_pieces_amount(self, player):
         count = 0
         for piece in self.pieces:
@@ -128,7 +121,21 @@ class Board:
         return count
 
     def get_available_moves(self, piece):
-        return[[3,3]]
+        moves_available = []
+        for move in piece.get_valid_moves():
+            new_row = move[0]
+            new_col = move[1]
+            if -1 < new_row <= 8 and -1 < new_col < 8:
+                if self.space_occupied(new_row, new_col):
+                    nearby_piece = self.get_piece_at_space(new_row, new_col)
+                    if nearby_piece.player != piece.player and self.can_capture_piece(piece, nearby_piece):
+                        row = piece.get_piece_jumping_position(nearby_piece)['opp_row']
+                        col = piece.get_piece_jumping_position(nearby_piece)['opp_col']
+                        moves_available.append([row, col])
+                else:  # This is entered if the space is unoccupied
+                    moves_available.append([new_row, new_col])
+        print(moves_available)
+        return moves_available
 
     def init_piece_positions(self, symbol1, symbol2):
         """
