@@ -103,46 +103,58 @@ class Game:
             if answer == 'Yes':
                 need_answer = False
                 return True
-            if answer == 'No':
+            elif answer == 'No':
                 need_answer = False
                 return False
+            else:
+                print('ERROR: Input not defined, please enter Yes or No')
 
     def comp_move(self):
         best_score = -math.inf
-        best_move = {'piece': None, 'move': [0, 0]}
+        best_move = {'piece': None, 'move': [0, 0, None]}
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.player == 2:
-                print(piece.player, 'first level')
                 for move in self.board.get_available_moves(piece):
                     old_row = piece.row
                     old_col = piece.col
-                    piece.row = move[0]
-                    piece.col = move[1]
+                    if move[2]:
+                        piece.capture_piece(move[2])
+                    else:
+                        piece.row = move[0]
+                        piece.col = move[1]
                     score = self.minimax(0, 1)
+                    if move[2]:
+                        move[2].alive = True
                     piece.row = old_row
                     piece.col = old_col
                     if score > best_score:
                         best_score = score
                         best_move['piece'] = piece
                         best_move['move'] = move
-        best_move['piece'].row = best_move['move'][0]
-        best_move['piece'].col = best_move['move'][1]
+        if best_move['move'][2]:
+            best_move['piece'].capture_piece(best_move['move'][2])
+        else:
+            best_move['piece'].row = best_move['move'][0]
+            best_move['piece'].col = best_move['move'][1]
 
     def minimax(self, depth, player):
         if depth >= 1:
             return self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1)
-        print(player)
         if player == 1:  # Minimizing player
             best_score = math.inf
             for piece in self.board.pieces:
                 if self.board.can_move_piece(piece) and piece.player == player:
-                    print(piece.player, 'depth', depth)
                     for move in self.board.get_available_moves(piece):
                         old_row = piece.row
                         old_col = piece.col
-                        piece.row = move[0]
-                        piece.col = move[1]
+                        if move[2]:
+                            piece.capture_piece(move[2])
+                        else:
+                            piece.row = move[0]
+                            piece.col = move[1]
                         score = self.minimax(depth + 1, 2)
+                        if move[2]:
+                            move[2].alive = True
                         piece.row = old_row
                         piece.col = old_col
                         best_score = min(score, best_score)
@@ -150,13 +162,17 @@ class Game:
             best_score = -math.inf
             for piece in self.board.pieces:
                 if self.board.can_move_piece(piece) and piece.player == player:
-                    print(piece.player, 'depth', depth)
                     for move in self.board.get_available_moves(piece):
                         old_row = piece.row
                         old_col = piece.col
-                        piece.row = move[0]
-                        piece.col = move[1]
+                        if move[2]:
+                            piece.capture_piece(move[2])
+                        else:
+                            piece.row = move[0]
+                            piece.col = move[1]
                         score = self.minimax(depth + 1, 1)
+                        if move[2]:
+                            move[2].alive = True
                         piece.row = old_row
                         piece.col = old_col
                         best_score = max(score, best_score)

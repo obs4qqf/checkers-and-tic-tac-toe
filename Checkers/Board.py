@@ -131,10 +131,9 @@ class Board:
                     if nearby_piece.player != piece.player and self.can_capture_piece(piece, nearby_piece):
                         row = piece.get_piece_jumping_position(nearby_piece)['opp_row']
                         col = piece.get_piece_jumping_position(nearby_piece)['opp_col']
-                        moves_available.append([row, col])
+                        moves_available.append([row, col, nearby_piece])
                 else:  # This is entered if the space is unoccupied
-                    moves_available.append([new_row, new_col])
-        print(moves_available)
+                    moves_available.append([new_row, new_col, None])
         return moves_available
 
     def init_piece_positions(self, symbol1, symbol2):
@@ -144,7 +143,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol2, 4, 4, 2), Piece.Piece(symbol1, 1, 1, 1)]
+        self.pieces = [Piece.Piece(symbol2, 3, 3, 2), Piece.Piece(symbol1, 1, 1, 1)]
 
 # def main():
 #
