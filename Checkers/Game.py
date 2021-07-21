@@ -109,9 +109,9 @@ class Game:
 
     def comp_move(self):
         best_score = -math.inf
-        best_move = {'piece': None, 'move': [None, None]}
+        best_move = {'piece': None, 'move': [0, 0]}
         for piece in self.board.pieces:
-            if self.board.can_move_piece(piece):
+            if self.board.can_move_piece(piece) and piece.player == 2:
                 for move in self.board.get_available_moves(piece):
                     old_row = piece.row
                     old_col = piece.col
@@ -122,13 +122,13 @@ class Game:
                     piece.col = old_col
                     if score > best_score:
                         best_score = score
-                        best_move.piece = piece
-                        best_move = move
-        best_move.piece.row = best_move.move[0]
-        best_move.piece.col = best_move.move[1]
+                        best_move['piece'] = piece
+                        best_move['move'] = move
+        best_move['piece'].row = best_move['move'][0]
+        best_move['piece'].col = best_move['move'][1]
 
     def minimax(self, depth):
-        best_score = -math.inf
+        best_score = math.inf
         if depth >= 1:
             return self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1)
         for piece in self.board.pieces:
@@ -138,10 +138,10 @@ class Game:
                     old_col = piece.col
                     piece.row = move[0]
                     piece.col = move[1]
-                    score = self.minimax(0)
+                    score = self.minimax(depth + 1)
                     piece.row = old_row
                     piece.col = old_col
-                    best_score = max(score, best_score)
+                    best_score = min(score, best_score)
         return best_score
 
 
@@ -155,8 +155,8 @@ def main():
     game_on = True
     while game_on:
         game = Game(symbol1, symbol2)
-        # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
-        # game.player1_turn = True  # used for debugging purposes
+        game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
+        game.player1_turn = True  # used for debugging purposes
         game.board.draw_board()
         print('Welcome to Checkers')
         while not game.game_won():
@@ -172,8 +172,14 @@ def main():
             else:
                 # pass
                 print('Player 2 turn, piece symbol:', symbol2)
-                piece = game.pick_piece(2)
-                game.move_piece(piece)
+                # piece = game.pick_piece(2)
+                # game.move_piece(piece)
+                # game.board.make_piece_king(piece)
+                # game.board.draw_board()
+                # if game.game_won():
+                #     break
+                # game.player1_turn = True
+                game.comp_move()
                 game.board.make_piece_king(piece)
                 game.board.draw_board()
                 if game.game_won():

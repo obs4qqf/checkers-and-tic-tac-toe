@@ -128,7 +128,7 @@ class Board:
         return count
 
     def get_available_moves(self, piece):
-        return [1, 1]
+        return[[3,3]]
 
     def init_piece_positions(self, symbol1, symbol2):
         """
@@ -137,7 +137,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol1, 3, 4, 1), Piece.Piece(symbol2, 4, 3, 2)]
+        self.pieces = [Piece.Piece(symbol2, 4, 4, 2), Piece.Piece(symbol1, 1, 1, 1)]
 
 # def main():
 #
