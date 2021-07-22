@@ -1,5 +1,4 @@
 import Piece
-import King
 
 class Board:
     """
@@ -13,12 +12,18 @@ class Board:
         :param symbol2: Player 2's marker symbol as a string
         """
         # Inactive pieces remain in the pieces array, but have an attribute of alive = False
-        self.pieces = [Piece.Piece(symbol1, 0, 1, 1), Piece.Piece(symbol1, 0, 3, 1), Piece.Piece(symbol1, 0, 5, 1), Piece.Piece(symbol1, 0, 7, 1),
-                       Piece.Piece(symbol1, 1, 0, 1), Piece.Piece(symbol1, 1, 2, 1), Piece.Piece(symbol1, 1, 4, 1), Piece.Piece(symbol1, 1, 6, 1),
-                       Piece.Piece(symbol1, 2, 1, 1), Piece.Piece(symbol1, 2, 3, 1), Piece.Piece(symbol1, 2, 5, 1), Piece.Piece(symbol1, 2, 7, 1),
-                       Piece.Piece(symbol2, 5, 0, 2), Piece.Piece(symbol2, 5, 2, 2), Piece.Piece(symbol2, 5, 4, 2), Piece.Piece(symbol2, 5, 6, 2),
-                       Piece.Piece(symbol2, 6, 1, 2), Piece.Piece(symbol2, 6, 3, 2), Piece.Piece(symbol2, 6, 5, 2), Piece.Piece(symbol2, 6, 7, 2),
-                       Piece.Piece(symbol2, 7, 0, 2), Piece.Piece(symbol2, 7, 2, 2), Piece.Piece(symbol2, 7, 4, 2), Piece.Piece(symbol2, 7, 6, 2)]
+        self.pieces = [Piece.Piece(symbol1, 0, 1, 1, False), Piece.Piece(symbol1, 0, 3, 1, False),
+                       Piece.Piece(symbol1, 0, 5, 1, False), Piece.Piece(symbol1, 0, 7, 1, False),
+                       Piece.Piece(symbol1, 1, 0, 1, False), Piece.Piece(symbol1, 1, 2, 1, False),
+                       Piece.Piece(symbol1, 1, 4, 1, False), Piece.Piece(symbol1, 1, 6, 1, False),
+                       Piece.Piece(symbol1, 2, 1, 1, False), Piece.Piece(symbol1, 2, 3, 1, False),
+                       Piece.Piece(symbol1, 2, 5, 1, False), Piece.Piece(symbol1, 2, 7, 1, False),
+                       Piece.Piece(symbol2, 5, 0, 2, False), Piece.Piece(symbol2, 5, 2, 2, False),
+                       Piece.Piece(symbol2, 5, 4, 2, False), Piece.Piece(symbol2, 5, 6, 2, False),
+                       Piece.Piece(symbol2, 6, 1, 2, False), Piece.Piece(symbol2, 6, 3, 2, False),
+                       Piece.Piece(symbol2, 6, 5, 2, False), Piece.Piece(symbol2, 6, 7, 2, False),
+                       Piece.Piece(symbol2, 7, 0, 2, False), Piece.Piece(symbol2, 7, 2, 2, False),
+                       Piece.Piece(symbol2, 7, 4, 2, False), Piece.Piece(symbol2, 7, 6, 2, False)]
 
     def draw_board(self):
         """
@@ -106,16 +111,12 @@ class Board:
         return player1 and player2
 
     def make_piece_king(self, piece):
-        made_king = False
         if piece.player == 1 and piece.row == 7:
-            piece.alive = False
-            self.pieces.append(King.King('@', piece.row, piece.col, piece.player))
-            made_king = True
+            piece.king = True
+            piece.symbol = '@'
         if piece.player == 2 and piece.row == 0:
-            piece.alive = False
-            self.pieces.append(King.King('%', piece.row, piece.col, piece.player))
-            made_king = True
-        return made_king
+            piece.king = True
+            piece.symbol = '%'
 
     def get_pieces_amount(self, player):
         count = 0
@@ -147,7 +148,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol2, 1, 1, 2), Piece.Piece(symbol1, 3, 3, 1)]
+        self.pieces = [Piece.Piece(symbol2, 1, 1, 2, False), Piece.Piece(symbol1, 3, 3, 1, False)]
 
 # def main():
 #

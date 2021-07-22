@@ -162,7 +162,7 @@ class Game:
                     else:  # This is entered if the current move is just a change in location
                         piece.row = move[0]
                         piece.col = move[1]
-                    made_king = self.board.make_piece_king(piece)
+                    self.board.make_piece_king(piece)
                     if player == 1:
                         next_player = 2
                     else:
@@ -172,11 +172,8 @@ class Game:
                         move[2].alive = True  # This makes the captured piece alive again to reset the board
                     piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
-                    if made_king:
-                        print('move:', move, ',player:', player, ',depth:', depth)
-                        piece.alive = True
-                        king_piece = self.board.get_piece_at_space(move[0], move[1])
-                        king_piece.alive = False
+                    if piece.king:
+                        piece.king = False
                     if player == 1:
                         if score < best_score:  # Finds the min score
                             best_score = score
