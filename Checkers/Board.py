@@ -143,7 +143,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol2, 3, 3, 2), Piece.Piece(symbol1, 1, 1, 1)]
+        self.pieces = [Piece.Piece(symbol2, 1, 1, 2), Piece.Piece(symbol1, 3, 3, 1)]
 
 # def main():
 #

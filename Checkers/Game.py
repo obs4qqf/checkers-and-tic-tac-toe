@@ -120,7 +120,8 @@ class Game:
 
     def comp_move(self):
         """
-        Allows the computer to pick and move a checkers piece
+        Allows the computer to pick and move a checkers piece using minimax algorithm
+        :return: The best piece for the computer to move
         """
         best_turn = self.minimax(0, 2)
         if best_turn['move'][2]:  # This is entered if the best move is a piece-capturing move
@@ -128,20 +129,21 @@ class Game:
         else:  # This is entered if the best move is a change in location
             best_turn['piece'].row = best_turn['move'][0]
             best_turn['piece'].col = best_turn['move'][1]
+        return best_turn['piece']
 
     def minimax(self, depth, player):
         """
         Determines the best possible move that can be made for the near future using recursion
         :param depth: The amount of future events that should be considered as an integer
         :param player: The player's possible future decisions that are being analyzed
-        :return:
+        :return: A dictionary including the best score, best piece to move, and best position to move the piece to
         """
-        if player == 1:
+        if player == 1:  # This is entered for the human player
             best_score = math.inf
-        else:
+        else:  # This is enter for the computer player
             best_score = -math.inf
         best_move = {'piece': None, 'move': [0, 0, None]}
-        if depth >= 2:  # Base case that considers the difference in pieces between the two players
+        if depth >= 1:  # Base case that considers the difference in pieces between the two players
             best_turn = {
                 'best_score': self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1),
                 'piece': best_move['piece'],
@@ -169,12 +171,12 @@ class Game:
                     piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
                     if player == 1:
-                        if score < best_score:
+                        if score < best_score:  # Finds the min score
                             best_score = score
                             best_move['piece'] = piece
                             best_move['move'] = move
                     else:
-                        if score > best_score:
+                        if score > best_score:  # Finds the max score
                             best_score = score
                             best_move['piece'] = piece
                             best_move['move'] = move
@@ -183,6 +185,7 @@ class Game:
             'piece': best_move['piece'],
             'move': best_move['move']
         }
+        print(best_turn)
         return best_turn
 
 
@@ -196,8 +199,8 @@ def main():
     game_on = True
     while game_on:
         game = Game(symbol1, symbol2)
-        # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
-        # game.player1_turn = True  # used for debugging purposes
+        game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
+        game.player1_turn = True  # used for debugging purposes
         game.board.draw_board()
         print('Welcome to Checkers')
         while not game.game_won():
@@ -213,7 +216,7 @@ def main():
             else:
                 # pass
                 print('Player 2 turn, piece symbol:', symbol2)
-                game.comp_move()
+                piece = game.comp_move()
                 game.board.make_piece_king(piece)
                 game.board.draw_board()
                 if game.game_won():
