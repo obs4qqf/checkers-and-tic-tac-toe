@@ -122,32 +122,12 @@ class Game:
         """
         Allows the computer to pick and move a checkers piece
         """
-        best_score = -math.inf
-        best_move = {'piece': None, 'move': [0, 0, None]}
-        for piece in self.board.pieces:
-            if self.board.can_move_piece(piece) and piece.player == 2:
-                for move in self.board.get_available_moves(piece):
-                    old_row = piece.row  # This stores the current position of a piece so it can be moved back later
-                    old_col = piece.col
-                    if move[2]:  # This is entered if the current analyzed move is a capturing move
-                        piece.capture_piece(move[2])
-                    else:  # This is entered if the current move is just a change in location
-                        piece.row = move[0]
-                        piece.col = move[1]
-                    score = self.minimax(0, 1)
-                    if move[2]:
-                        move[2].alive = True  # This makes the captured piece alive again to reset the board
-                    piece.row = old_row  # This moves the moved piece back to its original position
-                    piece.col = old_col
-                    if score > best_score:
-                        best_score = score
-                        best_move['piece'] = piece
-                        best_move['move'] = move
-        if best_move['move'][2]:  # This is entered if the best move is a piece-capturing move
-            best_move['piece'].capture_piece(best_move['move'][2])
+        best_turn = self.minimax(0, 2)
+        if best_turn['move'][2]:  # This is entered if the best move is a piece-capturing move
+            best_turn['piece'].capture_piece(best_turn['move'][2])
         else:  # This is entered if the best move is a change in location
-            best_move['piece'].row = best_move['move'][0]
-            best_move['piece'].col = best_move['move'][1]
+            best_turn['piece'].row = best_turn['move'][0]
+            best_turn['piece'].col = best_turn['move'][1]
 
     def minimax(self, depth, player):
         """
@@ -156,45 +136,54 @@ class Game:
         :param player: The player's possible future decisions that are being analyzed
         :return:
         """
-        if depth >= 2:  # Base case that considers the difference in pieces between the two players
-            return self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1)
-        if player == 1:  # Minimizing player (player 1)
+        if player == 1:
             best_score = math.inf
-            for piece in self.board.pieces:
-                if self.board.can_move_piece(piece) and piece.player == player:
-                    for move in self.board.get_available_moves(piece):
-                        old_row = piece.row
-                        old_col = piece.col
-                        if move[2]:
-                            piece.capture_piece(move[2])
-                        else:
-                            piece.row = move[0]
-                            piece.col = move[1]
-                        score = self.minimax(depth + 1, 2)
-                        if move[2]:
-                            move[2].alive = True
-                        piece.row = old_row
-                        piece.col = old_col
-                        best_score = min(score, best_score)
-        if player == 2:  # Maximizing player (Player 2 or computer)
+        else:
             best_score = -math.inf
-            for piece in self.board.pieces:
-                if self.board.can_move_piece(piece) and piece.player == player:
-                    for move in self.board.get_available_moves(piece):
-                        old_row = piece.row
-                        old_col = piece.col
-                        if move[2]:
-                            piece.capture_piece(move[2])
-                        else:
-                            piece.row = move[0]
-                            piece.col = move[1]
-                        score = self.minimax(depth + 1, 1)
-                        if move[2]:
-                            move[2].alive = True
-                        piece.row = old_row
-                        piece.col = old_col
-                        best_score = max(score, best_score)
-        return best_score
+        best_move = {'piece': None, 'move': [0, 0, None]}
+        if depth >= 2:  # Base case that considers the difference in pieces between the two players
+            best_turn = {
+                'best_score': self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1),
+                'piece': best_move['piece'],
+                'move': best_move['move']
+            }
+            return best_turn
+        for piece in self.board.pieces:
+            if self.board.can_move_piece(piece) and piece.player == player:
+                for move in self.board.get_available_moves(piece):
+                    # print('move:',move,',player:',player,',depth:',depth)
+                    old_row = piece.row  # This stores the current position of a piece so it can be moved back later
+                    old_col = piece.col
+                    if move[2]:  # This is entered if the current analyzed move is a capturing move
+                        piece.capture_piece(move[2])
+                    else:  # This is entered if the current move is just a change in location
+                        piece.row = move[0]
+                        piece.col = move[1]
+                    if player == 1:
+                        next_player = 2
+                    else:
+                        next_player = 1
+                    score = self.minimax(depth + 1, next_player)['best_score']
+                    if move[2]:
+                        move[2].alive = True  # This makes the captured piece alive again to reset the board
+                    piece.row = old_row  # This moves the moved piece back to its original position
+                    piece.col = old_col
+                    if player == 1:
+                        if score < best_score:
+                            best_score = score
+                            best_move['piece'] = piece
+                            best_move['move'] = move
+                    else:
+                        if score > best_score:
+                            best_score = score
+                            best_move['piece'] = piece
+                            best_move['move'] = move
+        best_turn = {
+            'best_score': best_score,
+            'piece': best_move['piece'],
+            'move': best_move['move']
+        }
+        return best_turn
 
 
 
