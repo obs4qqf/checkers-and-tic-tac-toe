@@ -143,12 +143,13 @@ class Game:
         else:  # This is enter for the computer player
             best_score = -math.inf
         best_move = {'piece': None, 'move': [0, 0, None]}
-        if depth >= 1:  # Base case that considers the difference in pieces between the two players
+        if depth >= 3:  # Base case that considers the difference in pieces between the two players
             best_turn = {
                 'best_score': self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1),
                 'piece': best_move['piece'],
                 'move': best_move['move']
             }
+            print(self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1))
             return best_turn
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.player == player:
@@ -161,6 +162,7 @@ class Game:
                     else:  # This is entered if the current move is just a change in location
                         piece.row = move[0]
                         piece.col = move[1]
+                    made_king = self.board.make_piece_king(piece)
                     if player == 1:
                         next_player = 2
                     else:
@@ -170,6 +172,11 @@ class Game:
                         move[2].alive = True  # This makes the captured piece alive again to reset the board
                     piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
+                    if made_king:
+                        print('move:', move, ',player:', player, ',depth:', depth)
+                        piece.alive = True
+                        king_piece = self.board.get_piece_at_space(move[0], move[1])
+                        king_piece.alive = False
                     if player == 1:
                         if score < best_score:  # Finds the min score
                             best_score = score
