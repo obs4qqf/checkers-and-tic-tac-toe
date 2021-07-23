@@ -168,6 +168,7 @@ class Game:
                     else:
                         next_player = 1
                     score = self.minimax(depth + 1, next_player)['best_score']
+                    # print('score',score)
                     if move[2]:
                         move[2].alive = True  # This makes the captured piece alive again to reset the board
                     piece.row = old_row  # This moves the moved piece back to its original position
@@ -190,6 +191,7 @@ class Game:
             'move': best_move['move']
         }
         print(best_turn)
+        print('depth',depth,'player',player)
         return best_turn
 
 
