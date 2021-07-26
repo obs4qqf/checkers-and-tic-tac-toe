@@ -57,3 +57,15 @@ class Piece:
                 valid_moves = [[self.row - 1, self.col - 1],
                                [self.row - 1, self.col + 1]]
         return valid_moves
+
+    def make_piece_king(self):
+        made_king = False
+        if self.player == 1 and self.row == 7:
+            self.king = True
+            self.symbol = '@'
+            made_king = True
+        if self.player == 2 and self.row == 0:
+            self.king = True
+            self.symbol = '%'
+            made_king = True
+        return made_king

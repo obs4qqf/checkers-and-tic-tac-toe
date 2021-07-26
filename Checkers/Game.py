@@ -149,12 +149,10 @@ class Game:
                 'piece': best_move['piece'],
                 'move': best_move['move']
             }
-            # print(self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1), 'depth', depth, 'player',player)
             return best_turn
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.player == player:
                 for move in self.board.get_available_moves(piece):
-                    # print('move:',move,',player:',player,',depth:',depth)
                     old_row = piece.row  # This stores the current position of a piece so it can be moved back later
                     old_col = piece.col
                     if move[2]:  # This is entered if the current analyzed move is a capturing move
@@ -162,7 +160,7 @@ class Game:
                     else:  # This is entered if the current move is just a change in location
                         piece.row = move[0]
                         piece.col = move[1]
-                    made_king = self.board.make_piece_king(piece)
+                    made_king = piece.make_piece_king()
                     if player == 1:
                         next_player = 2
                     else:
@@ -174,6 +172,7 @@ class Game:
                     piece.col = old_col
                     if made_king:
                         piece.king = False
+                        print('hi')
                     if player == 1:
                         if score < best_score:  # Finds the min score
                             best_score = score
@@ -211,7 +210,7 @@ def main():
                 print('Player 1 turn, piece symbol:', symbol1)
                 piece = game.pick_piece(1)
                 game.move_piece(piece)
-                game.board.make_piece_king(piece)
+                piece.make_piece_king()
                 game.board.draw_board()
                 if game.game_won():
                     break
@@ -220,7 +219,7 @@ def main():
                 # pass
                 print('Player 2 turn, piece symbol:', symbol2)
                 piece = game.comp_move()
-                game.board.make_piece_king(piece)
+                piece.make_piece_king()
                 game.board.draw_board()
                 if game.game_won():
                     break

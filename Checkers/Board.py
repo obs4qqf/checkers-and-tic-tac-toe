@@ -110,18 +110,6 @@ class Board:
                 player2 = False
         return player1 and player2
 
-    def make_piece_king(self, piece):
-        made_king = False
-        if piece.player == 1 and piece.row == 7:
-            piece.king = True
-            piece.symbol = '@'
-            made_king = True
-        if piece.player == 2 and piece.row == 0:
-            piece.king = True
-            piece.symbol = '%'
-            made_king = True
-        return made_king
-
     def get_pieces_amount(self, player):
         count = 0
         for piece in self.pieces:
@@ -152,7 +140,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol2, 1, 1, 2, False), Piece.Piece(symbol1, 3, 3, 1, False)]
+        self.pieces = [Piece.Piece(symbol2, 4, 4, 2, False), Piece.Piece(symbol1, 3, 3, 1, False), Piece.Piece(symbol2, 2, 2, 2, False)]
 
 # def main():
 #
