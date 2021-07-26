@@ -111,12 +111,16 @@ class Board:
         return player1 and player2
 
     def make_piece_king(self, piece):
+        made_king = False
         if piece.player == 1 and piece.row == 7:
             piece.king = True
             piece.symbol = '@'
+            made_king = True
         if piece.player == 2 and piece.row == 0:
             piece.king = True
             piece.symbol = '%'
+            made_king = True
+        return made_king
 
     def get_pieces_amount(self, player):
         count = 0

@@ -150,12 +150,10 @@ class Game:
                 'move': best_move['move']
             }
             # print(self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1), 'depth', depth, 'player',player)
-            print(best_turn,'base')
             return best_turn
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.player == player:
                 for move in self.board.get_available_moves(piece):
-                    print(move, player)
                     # print('move:',move,',player:',player,',depth:',depth)
                     old_row = piece.row  # This stores the current position of a piece so it can be moved back later
                     old_col = piece.col
@@ -164,18 +162,17 @@ class Game:
                     else:  # This is entered if the current move is just a change in location
                         piece.row = move[0]
                         piece.col = move[1]
-                    self.board.make_piece_king(piece)
+                    made_king = self.board.make_piece_king(piece)
                     if player == 1:
                         next_player = 2
                     else:
                         next_player = 1
                     score = self.minimax(depth + 1, next_player)['best_score']
-                    print('score',score)
                     if move[2]:
                         move[2].alive = True  # This makes the captured piece alive again to reset the board
                     piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
-                    if piece.king:
+                    if made_king:
                         piece.king = False
                     if player == 1:
                         if score < best_score:  # Finds the min score
@@ -192,8 +189,6 @@ class Game:
             'piece': best_move['piece'],
             'move': best_move['move']
         }
-        print(best_turn,'outside')
-        print('depth',depth,'player',player)
         return best_turn
 
 
