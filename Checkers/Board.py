@@ -100,17 +100,26 @@ class Board:
             return False
 
     def player_has_no_pieces(self):
-        player1 = True
+        """
+        Finds whether or not a player has pieces left
+        :return: Whether the player has no pieces as a boolean
+        """
+        player1 = True  # Player has no pieces by default
         player2 = True
         for piece in self.pieces:
             if piece.alive and piece.player == 1:
-                player1 = False
+                player1 = False  # If player as piece, function returns False
         for piece in self.pieces:
             if piece.alive and piece.player == 2:
                 player2 = False
         return player1 and player2
 
     def get_pieces_amount(self, player):
+        """
+        Returns the number of pieces that a player has
+        :param player: The player whose pieces will be counted
+        :return: The amount of pieces
+        """
         count = 0
         for piece in self.pieces:
             if piece.alive and piece.player == player:
@@ -118,6 +127,11 @@ class Board:
         return count
 
     def get_available_moves(self, piece):
+        """
+        Checks a piece for the available moves that it has
+        :param piece: The Piece object whose moves are traced
+        :return: An array containing arrays of new rows/columns to move to and/or a piece to capture
+        """
         moves_available = []
         for move in piece.get_valid_moves():
             new_row = move[0]
@@ -130,7 +144,7 @@ class Board:
                         col = piece.get_piece_jumping_position(nearby_piece)['opp_col']
                         moves_available.append([row, col, nearby_piece])
                 else:  # This is entered if the space is unoccupied
-                    moves_available.append([new_row, new_col, None])
+                    moves_available.append([new_row, new_col, None])  # None is added if no piece can be captured
         return moves_available
 
     def init_piece_positions(self, symbol1, symbol2):
@@ -140,7 +154,7 @@ class Board:
         :param symbol2: Player 2's symbol
         :return:
         """
-        self.pieces = [Piece.Piece(symbol2, 4, 4, 2, False), Piece.Piece(symbol1, 3, 3, 1, False), Piece.Piece(symbol2, 2, 2, 2, False)]
+        self.pieces = [Piece.Piece(symbol2, 3, 5, 2, False), Piece.Piece(symbol1, 3, 3, 1, False)]
 
 # def main():
 #

@@ -59,6 +59,10 @@ class Piece:
         return valid_moves
 
     def make_piece_king(self):
+        """
+        Turns a normal piece into a King piece
+        :return: Whether or not a king piece was made
+        """
         made_king = False
         if self.player == 1 and self.row == 7 and not self.king:
             self.king = True
@@ -71,6 +75,9 @@ class Piece:
         return made_king
 
     def undo_king_piece(self):
+        """
+        Turns a King piece back into a normal piece
+        """
         self.king = False
         if self.symbol == '%':
             self.symbol = 'X'

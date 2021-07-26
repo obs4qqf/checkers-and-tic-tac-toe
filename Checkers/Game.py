@@ -70,7 +70,7 @@ class Game:
     def move_piece(self, piece):
         """
         Moves the selected piece to a valid nearby location that the player defines
-        :param piece: The piece selected previously as a Piece object
+        :param piece: The Piece object selected previously to be moved
         """
         need_move = True
         while need_move:
@@ -88,7 +88,7 @@ class Game:
                         need_move = False
                     else:
                         nearby_piece = self.board.get_piece_at_space(row, col)
-                        if nearby_piece.player != piece.player:  # Checks if space is occupied by opponent's piece
+                        if nearby_piece.player != piece.player:  # Checks if nearby space is occupied by opponent piece
                             if self.board.can_capture_piece(piece, nearby_piece):
                                 piece.capture_piece(nearby_piece)
                                 need_move = False
@@ -104,7 +104,7 @@ class Game:
     def restart_game_prompt(self):
         """
         Asks the player whether they would like to continue the game after a win/loss
-        :return:
+        :return: Whether the game should be restarted as a boolean
         """
         need_answer = True
         while need_answer:
@@ -133,7 +133,7 @@ class Game:
 
     def minimax(self, depth, player):
         """
-        Determines the best possible move that can be made for the near future using recursion
+        Determines the best possible move that can be made for the near future using recursion to trace all outcomes
         :param depth: The amount of future events that should be considered as an integer
         :param player: The player's possible future decisions that are being analyzed
         :return: A dictionary including the best score, best piece to move, and best position to move the piece to
@@ -167,7 +167,7 @@ class Game:
                         next_player = 1
                     score = self.minimax(depth + 1, next_player)['best_score']
                     if move[2]:
-                        move[2].alive = True  # This makes the captured piece alive again to reset the board
+                        move[2].alive = True  # This makes the captured piece alive again to undo the move
                     piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
                     if made_king:
@@ -200,8 +200,8 @@ def main():
     game_on = True
     while game_on:
         game = Game(symbol1, symbol2)
-        game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
-        game.player1_turn = True  # used for debugging purposes
+        # game.board.init_piece_positions(symbol1, symbol2)  # used for debugging purposes to pick chess piece positions
+        # game.player1_turn = True  # used for debugging purposes
         game.board.draw_board()
         print('Welcome to Checkers')
         while not game.game_won():
