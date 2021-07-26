@@ -60,12 +60,19 @@ class Piece:
 
     def make_piece_king(self):
         made_king = False
-        if self.player == 1 and self.row == 7:
+        if self.player == 1 and self.row == 7 and not self.king:
             self.king = True
             self.symbol = '@'
             made_king = True
-        if self.player == 2 and self.row == 0:
+        if self.player == 2 and self.row == 0 and not self.king:
             self.king = True
             self.symbol = '%'
             made_king = True
         return made_king
+
+    def undo_king_piece(self):
+        self.king = False
+        if self.symbol == '%':
+            self.symbol = 'X'
+        else:
+            self.symbol = 'O'

@@ -151,7 +151,7 @@ class Game:
             }
             return best_turn
         for piece in self.board.pieces:
-            if self.board.can_move_piece(piece) and piece.player == player:
+            if self.board.can_move_piece(piece) and piece.player == player and piece.alive:
                 for move in self.board.get_available_moves(piece):
                     old_row = piece.row  # This stores the current position of a piece so it can be moved back later
                     old_col = piece.col
@@ -171,8 +171,7 @@ class Game:
                     piece.row = old_row  # This moves the moved piece back to its original position
                     piece.col = old_col
                     if made_king:
-                        piece.king = False
-                        print('hi')
+                        piece.undo_king_piece()
                     if player == 1:
                         if score < best_score:  # Finds the min score
                             best_score = score
