@@ -138,9 +138,9 @@ class Game:
         :param player: The player's possible future decisions that are being analyzed
         :return: A dictionary including the best score, best piece to move, and best position to move the piece to
         """
-        if player == 1:  # This is entered for the human player
+        if player == 1:  # This is entered for the human player (minimizing player)
             best_score = math.inf
-        else:  # This is enter for the computer player
+        else:  # This is enter for the computer player (maximizing player)
             best_score = -math.inf
         best_move = {'piece': None, 'move': [0, 0, None]}
         if depth >= 3:  # Base case that considers the difference in pieces between the two players
@@ -149,11 +149,13 @@ class Game:
                 'piece': best_move['piece'],
                 'move': best_move['move']
             }
-            print(self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1))
+            # print(self.board.get_pieces_amount(2) - self.board.get_pieces_amount(1), 'depth', depth, 'player',player)
+            print(best_turn,'base')
             return best_turn
         for piece in self.board.pieces:
             if self.board.can_move_piece(piece) and piece.player == player:
                 for move in self.board.get_available_moves(piece):
+                    print(move, player)
                     # print('move:',move,',player:',player,',depth:',depth)
                     old_row = piece.row  # This stores the current position of a piece so it can be moved back later
                     old_col = piece.col
@@ -168,7 +170,7 @@ class Game:
                     else:
                         next_player = 1
                     score = self.minimax(depth + 1, next_player)['best_score']
-                    # print('score',score)
+                    print('score',score)
                     if move[2]:
                         move[2].alive = True  # This makes the captured piece alive again to reset the board
                     piece.row = old_row  # This moves the moved piece back to its original position
@@ -190,7 +192,7 @@ class Game:
             'piece': best_move['piece'],
             'move': best_move['move']
         }
-        print(best_turn)
+        print(best_turn,'outside')
         print('depth',depth,'player',player)
         return best_turn
 
